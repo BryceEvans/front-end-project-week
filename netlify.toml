@@ -2,3 +2,8 @@
 base = "lambda-notes/"
 publish = "lambda-notes/build/"
 command = "yarn build"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
