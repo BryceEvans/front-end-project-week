@@ -28,6 +28,12 @@ export default class UpdateNote extends Component {
             .then(response => {
                 console.log(response);
                 this.setState(() => ({ note: response.data }));
+
+                console.log('id:', id);
+                console.log('id type:', typeof(id));
+                console.log('response', response);
+                console.log('state of text:', this.state.note.text);
+                console.log('state of textBody:', this.state.note.textBody);
             })
             .catch(error => {
                 console.error(error);
@@ -52,8 +58,10 @@ export default class UpdateNote extends Component {
             // .put(`${URL}/edit/${id}`, note)
             .put(`${URL}/edit/${id}`, note)
             .then(response => {
+                
                 this.setState({ title: '', textBody: '' })
                 this.setState({ note: response.data })
+                this.props.history.push('/'); 
             })
             .catch(error => {
                 console.log(error)
@@ -63,13 +71,20 @@ export default class UpdateNote extends Component {
     render() {
         return (
             <div className="notes-list">
-                <h2 className="your-notes">Edit Note:</h2>
-                    <form className="input-form" onSubmit={this.submitHandler} >
-                        <input type="text" defaultValue={this.state.note.title} name="title" onChange={this.handleChange} />
-                        {this.state.textBody}
-                        <textarea value={this.state.note.textBody} name="textBody" onChange={this.handleChange} />
-                        <button type="submit" className="submit-button">Update</button>
-                    </form>
+                {this.state.note[0] ? this.state.note.map(note => {
+                    return (
+                        <div>            
+                            <h2 className="your-notes">Edit Note:</h2>
+                                <form className="input-form" onSubmit={this.submitHandler} >
+                                    <input type="text" defaultValue={note.title} name="title" onChange={this.handleChange} />
+                                    {note.textBody}
+                                    <textarea value={note.textBody} name="textBody" onChange={this.handleChange} />
+                                    <button type="submit" className="submit-button">Update</button>
+                                </form>
+                        </div>
+                    )
+                }) : null}
+
             </div>
         )
     }

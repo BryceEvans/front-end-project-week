@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 import './Notes.css';
 import axios from 'axios';
 
@@ -66,4 +66,5 @@ class AddNote extends Component {
     }
 };
 
-export default withRouter(AddNote);
+// export default withRouter(AddNote);
+export default AddNote;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
@@ -37,9 +36,9 @@ class OneNote extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            note: [],
-            // title: '',
-            // textBody: ''
+            note: {
+
+            },
             modal: false,
         };
     
@@ -62,6 +61,9 @@ class OneNote extends Component {
                 console.log('id:', id);
                 console.log('id type:', typeof(id));
                 this.setState(() => ({ note: response.data }));
+                console.log('response', response);
+                console.log('state of text:', this.state.note.text);
+                console.log('state of textBody:', this.state.note.textBody);
             })
             .catch(error => {
                 console.error(error);
@@ -77,7 +79,6 @@ class OneNote extends Component {
     deleteHandler = () => {
         const id = this.props.match.params.id;
         axios
-            // .delete(`${URL}/delete/${id}`)
             .delete(`${URL}/delete/${id}`)
             .then(response => {
                 console.log(response);
@@ -90,34 +91,44 @@ class OneNote extends Component {
 
     render() {
         const id = this.props.match.params.id;
+        console.log("state1", this.state.note[0])
+        
         return (
-                <div className="menu-container">
-                    <div className="modal-div">
-                        <MyModal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                            <MyModalBody>
-                                Are you sure you want to delete this?
-                            </MyModalBody>
-                            <MyModalFooter>
-                                <MyButton color="primary" className="red-button" onClick={this.deleteHandler}>Delete</MyButton>{' '}
-                                <MyButton color="secondary" className="submit-button" onClick={this.toggle}>No</MyButton>
-                            </MyModalFooter>
-                        </MyModal>
+            <div className="menu-container">
+            {this.state.note[0]? this.state.note.map((note) => {
+                return(
+                    <div>
+                        <div className="modal-div">
+                            <MyModal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                                <MyModalBody>
+                                    Are you sure you want to delete this?
+                                </MyModalBody>
+                                <MyModalFooter>
+                                    <MyButton color="primary" className="red-button" onClick={this.deleteHandler}>Delete</MyButton>{' '}
+                                    <MyButton color="secondary" className="submit-button" onClick={this.toggle}>No</MyButton>
+                                </MyModalFooter>
+                            </MyModal>
+                        </div>
+                        <div className="link-container">
+                            <Link to={`/edit/${id}`} className="link">
+                                edit
+                            </Link>
+                            <p className="link" onClick={this.toggle} >
+                                delete
+                            </p>
+                        </div>
+                        <div className="note-view">
+                            <h2 className="your-notes">
+                            {note.title}</h2>
+                            
+                            <p>{note.textBody}</p>
+                        </div>                  
                     </div>
-                    <div className="link-container">
-                        <Link to={`/edit/${id}`} className="link">
-                            edit
-                        </Link>
-                        <p className="link" onClick={this.toggle} >
-                            delete
-                        </p>
-                    </div>
-                    <div className="note-view">
-                        <h2 className="your-notes">{this.state.note.title}</h2>
-                        <p>{this.state.note.textBody}</p>
-                    </div>
-                </div>
+                )}) : null}
+            </div>
         );
     }
 };
 
-export default withRouter(OneNote);
+// export default withRouter(OneNote);
+export default OneNote;

@@ -33,10 +33,10 @@ export default class Notes extends Component {
             <div className="notes-list">
                 <h2 className="your-notes">Your Notes:</h2>
                 <div className="all-notes">
-                    {this.state.notes.map(note => (
+                    {this.state.notes.map(notes => (
                         // <Link key={note._id} to={`/note/${note._id}`} className="card-link">
-                        <Link key={note.id} to={`/note/${note.id}`} className="card-link">
-                            <Note note={note} />
+                        <Link key={notes.id} to={`/note/${notes.id}`} className="card-link">
+                            <Note notes={notes} />
                         </Link>
                     ))}
                 </div>
