@@ -78,7 +78,7 @@ export default class UpdateNote extends Component {
                                 <form className="input-form" onSubmit={this.submitHandler} >
                                     <input type="text" defaultValue={note.title} name="title" onChange={this.handleChange} />
                                     {note.textBody}
-                                    <textarea value={note.textBody} name="textBody" onChange={this.handleChange} />
+                                    <textarea defaultValue={note.textBody} name="textBody" onChange={this.handleChange} />
                                     <button type="submit" className="submit-button">Update</button>
                                 </form>
                         </div>
